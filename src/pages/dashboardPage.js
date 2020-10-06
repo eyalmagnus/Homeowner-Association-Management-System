@@ -2,20 +2,21 @@ import React, { Component, useContext } from "react";
 import TheNavBar from "../components/theNavBar";
 import { Container } from "react-bootstrap";
 import ActiveUserContext from "../activeUserContext";
+import { Redirect } from "react-router-dom";
 
 function DashboardPage(props) {
   const activeUser = useContext(ActiveUserContext);
-
-  // if (!activeUser) {
-  //   return <Redirect to="/" />;
-  // }
+  const { user } = activeUser;
+  if (!user) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div>
-      <TheNavBar />
+      <TheNavBar iamParent={"dashboard"} />
       <Container>
         <h2>Dashboard in page</h2>
-        <div>Active User:</div>
+        <div>Hello {user.name}</div>
       </Container>
     </div>
   );

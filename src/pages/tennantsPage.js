@@ -11,7 +11,7 @@ function TennantsPage() {
   }
   return (
     <div>
-      <TheNavBar />
+      <TheNavBar iamParent={"tennants"} />
       <Container>
         <h2>Menage Tennats page</h2>
       </Container>

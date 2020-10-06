@@ -8,11 +8,24 @@ import VotesPage from "./pages/votesPage";
 import IssuesPage from "./pages/issuesPage";
 import { HashRouter as Router, Switch, Route, Link } from "react-router-dom";
 import ActiveUserContext from "./activeUserContext";
+import userModel from "./pages/shared/userModel";
 
 export default function App() {
-  const handleLogin = () => {
-    setUser(true);
-    localStorage.activeUser = JSON.stringify(user);
+  // name, email, apartment, isCM, buildingName, buildingID, userID;
+  const demoUser = new userModel(
+    "JohnDoe",
+    "johny@hom.org.il",
+    7,
+    true,
+    "thePil",
+    567,
+    1234
+  );
+
+  const handleLogin = (logedinUser) => {
+    setUser(demoUser);
+    console.log(demoUser);
+    localStorage.activeUser = JSON.stringify(demoUser);
   };
 
   const handleLogout = () => {
@@ -28,7 +41,7 @@ export default function App() {
     handleLogout: handleLogout,
     handleLogin: handleLogin,
   };
-  console.log(activeUser);
+  // console.log(activeUser);
   return (
     <div>
       <ActiveUserContext.Provider value={activeUser}>

@@ -6,62 +6,85 @@ import {
   Form,
   FormControl,
   Button,
+  Badge,
 } from "react-bootstrap";
-import "./theNavBar.css";
 import ActiveUserContext from "../activeUserContext";
 
-function TheNavBar() {
+function TheNavBar(props) {
+  const { iamParent } = props;
   const activeUser = useContext(ActiveUserContext);
-  console.log(activeUser);
+  // console.log(activeUser);
   const { user, handleLogin, handleLogout } = activeUser;
-  const showTennants = user ? (
-    <Nav.Link href="/#/tennants">Tennants</Nav.Link>
-  ) : null;
+
+  const showDashboard =
+    iamParent !== "dashboard" ? (
+      <Nav.Link href="/#/dashboard">Dashboard</Nav.Link>
+    ) : null;
+
+  const showMessages =
+    iamParent !== "messages" ? (
+      <Nav.Link href="/#/messages">Messages</Nav.Link>
+    ) : null;
+
+  const showIssues =
+    iamParent !== "issues" ? (
+      <Nav.Link href="/#/issues">Issues</Nav.Link>
+    ) : null;
+
+  const showVoting =
+    iamParent !== "votes" ? <Nav.Link href="/#/votes">Voting</Nav.Link> : null;
+
+  const showTennants =
+    iamParent !== "tennants" ? (
+      <Nav.Link href="/#/tennants">Tennants</Nav.Link>
+    ) : null;
   const showNavButtons = user ? (
     <Nav className="mr-auto">
-      <Nav.Link href="/#/dashboard">Dashboard</Nav.Link>
-      <Nav.Link href="/#/messages">Messages</Nav.Link>
-      <Nav.Link href="/#/issues">Issues</Nav.Link>
-      <Nav.Link href="/#/votes">Voting</Nav.Link>
+      {showDashboard}
+      {showMessages}
+      {showIssues}
+      {showVoting}
       {showTennants}
     </Nav>
-  ) : null;
+  ) : (
+    "Log in to gain access.."
+  );
 
   const showLogin = !user ? (
-    <div>
-      <Button
-        onClick={() => handleLogin()}
-        className="navButtons"
-        variant="outline-success"
-      >
-        LogIn
-      </Button>
-      <Button className="navButtons" variant="outline-primary">
-        SignUp{" "}
-      </Button>
-    </div>
-  ) : (
+    <Button
+      onClick={() => handleLogin()}
+      className="m-1"
+      variant="outline-success"
+    >
+      LogIn
+    </Button>
+  ) : null;
+  const showLogout = user ? (
     <Button
       onClick={() => handleLogout()}
-      className="navButtons"
+      className="m-1"
       variant="outline-danger"
     >
       LogOut
     </Button>
-  );
-  // const showLogout = user ? (
-  //   <Button className="navButtons" variant="outline-danger">
-  //     LogOut
-  //   </Button>
-  // ) : null;
+  ) : null;
+
+  const showUser = user ? (
+    <Badge pill variant="light">
+      Signed in as: {user.name}
+    </Badge>
+  ) : null;
 
   return (
     <Navbar bg="light" expand="md">
       <Navbar.Brand href="/">HOM Systems</Navbar.Brand>
+      {showLogin}
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      {showUser}
+
       <Navbar.Collapse id="basic-navbar-nav">
-        {showNavButtons}
-        <Nav className="ml-auto">{showLogin}</Nav>
+        <div> {showNavButtons}</div>
+        <Nav className="ml-auto">{showLogout}</Nav>
       </Navbar.Collapse>
     </Navbar>
   );

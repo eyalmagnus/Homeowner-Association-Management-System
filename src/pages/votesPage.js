@@ -11,7 +11,7 @@ function VotesPage() {
   }
   return (
     <div>
-      <TheNavBar />
+      <TheNavBar iamParent={"votes"} />
       <Container>
         <h2>Voting page</h2>
       </Container>

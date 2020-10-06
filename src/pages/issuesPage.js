@@ -6,14 +6,16 @@ import { Redirect } from "react-router-dom";
 
 function IssuesPage() {
   const activeUser = useContext(ActiveUserContext);
-  if (!activeUser.user) {
+  const { user } = activeUser;
+  if (!user) {
     return <Redirect to="/" />;
   }
   return (
     <div>
-      <TheNavBar />
+      <TheNavBar iamParent={"issues"} />
       <Container>
-        <h2>Issues page</h2>{" "}
+        <h2>Issues page</h2>
+        <div>Hello {user.name}</div>
       </Container>
     </div>
   );
