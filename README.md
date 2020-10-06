@@ -1,3 +1,13 @@
+המערכת משווקת לוועדי בית. אז העמוד נחיתה צריך לשקף את זה
+חסר באיפיון אובייקט community
+הצעה לסדר עבודה:
+להתחיל מהתהליך של הודעות
+רישום דיירים ע"י ועד בית
+תהליך של הצבעות
+רישום ועד בית
+דשבורד
+תהליך תקלות
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
