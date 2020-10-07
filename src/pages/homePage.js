@@ -1,7 +1,6 @@
-import React, { Component, useContext } from "react";
+import React, { useContext } from "react";
 import { Container } from "react-bootstrap";
 import TheNavBar from "../components/theNavBar";
-import { propTypes } from "react-bootstrap/esm/Image";
 import ActiveUserContext from "../activeUserContext";
 import { Redirect } from "react-router-dom";
 

@@ -1,6 +1,6 @@
 import TheNavBar from "../components/theNavBar";
 import { Container } from "react-bootstrap";
-import React, { Component, useContext } from "react";
+import React, { useContext } from "react";
 import ActiveUserContext from "../activeUserContext";
 import { Redirect } from "react-router-dom";
 

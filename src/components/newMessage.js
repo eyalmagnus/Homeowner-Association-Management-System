@@ -1,26 +1,29 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
 const NewMessage = (props) => {
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
-  const [priority, setPriority] = useState("");
-  const [file, setFile] = useState("");
-  const { callPost } = props.handlePost;
-  const handleClose = () => setShow(false);
+  const [priority, setPriority] = useState("info");
+  // const [file, setFile] = useState("");
+  const handleClose = () => { setShow(false); setTitle(""); setDetails(""); setPriority("info") };
   const handleShow = () => setShow(true);
+
+
   const handlePost = () => {
-    callPost(title, details);
+    props.handlePost(title, details, priority);
+    handleClose();
   };
 
   return (
-    <>
+    <div >
       <Button variant="link" onClick={handleShow}>
         + New Message
       </Button>
 
       <Modal
+        animation={false}
         show={show}
         onHide={handleClose}
         backdrop="static"
@@ -31,7 +34,7 @@ const NewMessage = (props) => {
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group controlId="exampleForm.ControlInput1">
+            <Form.Group controlId="ControlTitle">
               <Form.Label>Title:</Form.Label>
               <Form.Control
                 type="text"
@@ -42,7 +45,7 @@ const NewMessage = (props) => {
                 }}
               />
             </Form.Group>
-            <Form.Group controlId="exampleForm.ControlTextarea1">
+            <Form.Group controlId="ControlDetails">
               <Form.Label>Details:</Form.Label>
               <Form.Control
                 as="textarea"
@@ -53,14 +56,16 @@ const NewMessage = (props) => {
                 }}
               />
             </Form.Group>
-            <Form.Group controlId="exampleForm.ControlSelect1">
+            <Form.Group controlId="ControlpPriority">
               <Form.Label>Priority:</Form.Label>
-              <Form.Control as="select">
-                <option>Info</option>
-                <option>Important!</option>
+              <Form.Control as="select" value={priority} onChange={(e) => {
+                setPriority(e.target.value);
+              }}>
+                <option value={"info"}>Info</option>
+                <option value={"important"}>Important!</option>
               </Form.Control>
             </Form.Group>
-            <Form.File id="custom-file" label="Choose a picture.." custom />
+            <Form.File id="pic-file" label="Choose a picture.." custom />
           </Form>
         </Modal.Body>
         <Modal.Footer>
@@ -72,7 +77,7 @@ const NewMessage = (props) => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 };
 

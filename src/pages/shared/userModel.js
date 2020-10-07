@@ -9,12 +9,6 @@ class userModel {
     this.userID = userID;
   }
 
-  // actorAge() {
-  //   const currentYear = new Date().getFullYear();
-  //   // const birthyear = this.birthday;
-  //   let age = currentYear - this.birthday;
-  //   return age;
-  // }
 }
 
 export default userModel;

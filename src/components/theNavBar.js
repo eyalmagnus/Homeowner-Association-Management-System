@@ -1,21 +1,19 @@
-import React, { Component, useContext } from "react";
+import React, { createRef, useContext } from "react";
 import {
   Navbar,
   Nav,
-  NavDropdown,
-  Form,
-  FormControl,
   Button,
   Badge,
 } from "react-bootstrap";
 import ActiveUserContext from "../activeUserContext";
+import LogIn from "./LogIn";
 
 function TheNavBar(props) {
   const { iamParent } = props;
   const activeUser = useContext(ActiveUserContext);
   // console.log(activeUser);
   const { user, handleLogin, handleLogout } = activeUser;
-
+  const aRef = createRef();
   const showDashboard =
     iamParent !== "dashboard" ? (
       <Nav.Link href="/#/dashboard">Dashboard</Nav.Link>
@@ -47,21 +45,22 @@ function TheNavBar(props) {
       {showTennants}
     </Nav>
   ) : (
-    "Log in to gain access.."
-  );
+      "Log in to gain access.."
+    );
 
   const showLogin = !user ? (
-    <Button
-      onClick={() => handleLogin()}
-      className="m-1"
-      variant="outline-success"
-    >
-      LogIn
-    </Button>
+    // <Button
+    //   onClick={handleLogin}
+    //   className="m-1"
+    //   variant="outline-success"
+    // >
+    //   LogIn
+    // </Button>
+    <LogIn handleLogin={handleLogin} />
   ) : null;
   const showLogout = user ? (
     <Button
-      onClick={() => handleLogout()}
+      onClick={handleLogout}
       className="m-1"
       variant="outline-danger"
     >
@@ -82,8 +81,8 @@ function TheNavBar(props) {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       {showUser}
 
-      <Navbar.Collapse id="basic-navbar-nav">
-        <div> {showNavButtons}</div>
+      <Navbar.Collapse id="basic-navbar-nav" >
+        <div className="ml-2" ref={aRef}> {showNavButtons}</div>
         <Nav className="ml-auto">{showLogout}</Nav>
       </Navbar.Collapse>
     </Navbar>

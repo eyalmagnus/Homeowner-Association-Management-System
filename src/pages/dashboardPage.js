@@ -1,4 +1,4 @@
-import React, { Component, useContext } from "react";
+import React, { useContext } from "react";
 import TheNavBar from "../components/theNavBar";
 import { Container } from "react-bootstrap";
 import ActiveUserContext from "../activeUserContext";
