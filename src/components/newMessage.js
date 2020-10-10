@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
 const NewMessage = (props) => {
@@ -6,12 +6,16 @@ const NewMessage = (props) => {
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
   const [priority, setPriority] = useState("info");
-  const [file, setFile] = useState("");
-  const handleClose = () => { setShow(false); setTitle(""); setDetails(""); setPriority("info"); setValidated(false); };
+  const [file, setFile] = useState({});
+  const handleClose = () => { setShow(false); setTitle(""); setDetails(""); setPriority("info"); setFile({}); setValidated(false); };
   const handleShow = () => setShow(true);
-
+  const inputRef = useRef();
   const [validated, setValidated] = useState(false);
-
+  const handleFileSelect = (event) => {
+    console.log(event.target.files);
+    const files = event.target.files;
+    if (files.length > 0) { setFile(files) }
+  };
   const handlePost = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -19,13 +23,12 @@ const NewMessage = (props) => {
       event.stopPropagation();
       setValidated(true);
     } else {
-      props.handlePost(title, details, priority);
+      props.handlePost(title, details, priority, file);
       handleClose();
-
     }
-
   };
 
+  const fileCooseLabel = (file.length > 0) ? file[0].name : "Choose a picture..."
   return (
     <div >
       <Button variant="link" onClick={handleShow}>
@@ -85,7 +88,8 @@ const NewMessage = (props) => {
                 <option value={"important"}>IMPORTANT!</option>
               </Form.Control>
             </Form.Group>
-            <Form.File id="pic-file" label="Choose a picture.." custom />
+            {/* The F I L E INPUT */}
+            <Form.File multiple id="pic-file" ref={inputRef} label={fileCooseLabel} custom onChange={handleFileSelect} />
             <div className="my-3 d-flex justify-content-end">
               <Button className="m-1 mr-2" variant="secondary" onClick={handleClose}>
                 Cancel
