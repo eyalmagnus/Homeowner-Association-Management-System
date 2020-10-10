@@ -12,29 +12,44 @@ import userModel from "./pages/shared/userModel";
 
 export default function App() {
   // name, email, apartment, isCM, buildingName, buildingID, userID;
-  const demoUser = new userModel(
+  const demoUser1 = new userModel(
     "JohnDoe",
-    "johny@hom.org.il",
+    "johny@email.com",
     7,
     true,
     "thePil",
     567,
     1234
   );
+  const demoUser2 = new userModel(
+    "SaraDoe",
+    "sara@email.com",
+    8,
+    false,
+    "thePil",
+    567,
+    1235
+  );
+  const demoUsers = [{ user: demoUser1, password: 1234 }, { user: demoUser2, password: 1234 }]
 
   const handleLogin = (email, password) => {
-    setUser(demoUser);
-    console.log(email, password);
-    localStorage.activeUser = JSON.stringify(demoUser);
+    for (let i = 0; i < demoUsers.length; i++) {
+      if (demoUsers[i].user.email == email && demoUsers[i].password == password) {
+        setUser(demoUsers[i].user);
+        localStorage.activeUser = JSON.stringify(demoUsers[i].user);
+        return true;
+      };
+    };
+    return false;
+
   };
 
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem("activeUser");
   };
-  const [user, setUser] = useState(
-    localStorage.activeUser ? JSON.parse(localStorage.activeUser) : null // Changed from null
-  );
+  const prevUser = localStorage.activeUser ? JSON.parse(localStorage.activeUser) : null
+  const [user, setUser] = useState(prevUser);
 
   const activeUser = {
     user: user,

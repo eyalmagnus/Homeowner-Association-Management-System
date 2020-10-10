@@ -6,14 +6,24 @@ const NewMessage = (props) => {
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
   const [priority, setPriority] = useState("info");
-  // const [file, setFile] = useState("");
-  const handleClose = () => { setShow(false); setTitle(""); setDetails(""); setPriority("info") };
+  const [file, setFile] = useState("");
+  const handleClose = () => { setShow(false); setTitle(""); setDetails(""); setPriority("info"); setValidated(false); };
   const handleShow = () => setShow(true);
 
+  const [validated, setValidated] = useState(false);
 
-  const handlePost = () => {
-    props.handlePost(title, details, priority);
-    handleClose();
+  const handlePost = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+      setValidated(true);
+    } else {
+      props.handlePost(title, details, priority);
+      handleClose();
+
+    }
+
   };
 
   return (
@@ -30,13 +40,14 @@ const NewMessage = (props) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>New Message</Modal.Title>
+          <Modal.Title>New Billboard Message</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form>
+          <Form noValidate validated={validated} onSubmit={handlePost}>
             <Form.Group controlId="ControlTitle">
               <Form.Label>Title:</Form.Label>
               <Form.Control
+                required
                 type="text"
                 placeholder="A new ..."
                 value={title}
@@ -44,10 +55,15 @@ const NewMessage = (props) => {
                   setTitle(e.target.value);
                 }}
               />
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                Please choose a title.
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="ControlDetails">
               <Form.Label>Details:</Form.Label>
               <Form.Control
+                required
                 as="textarea"
                 rows="3"
                 value={details}
@@ -55,6 +71,10 @@ const NewMessage = (props) => {
                   setDetails(e.target.value);
                 }}
               />
+              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                Please add some details.
+              </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="ControlpPriority">
               <Form.Label>Priority:</Form.Label>
@@ -62,20 +82,22 @@ const NewMessage = (props) => {
                 setPriority(e.target.value);
               }}>
                 <option value={"info"}>Info</option>
-                <option value={"important"}>Important!</option>
+                <option value={"important"}>IMPORTANT!</option>
               </Form.Control>
             </Form.Group>
             <Form.File id="pic-file" label="Choose a picture.." custom />
+            <div className="my-3 d-flex justify-content-end">
+              <Button className="m-1 mr-2" variant="secondary" onClick={handleClose}>
+                Cancel
+          </Button>
+              <Button className="my-1" type="submit" variant="primary" >
+                Post Message
+          </Button>
+            </div>
           </Form>
+
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handlePost}>
-            Post Message
-          </Button>
-        </Modal.Footer>
+
       </Modal>
     </div>
   );

@@ -5,11 +5,17 @@ import ActiveUserContext from "../activeUserContext";
 import { Redirect } from "react-router-dom";
 import NewMessage from "../components/newMessage";
 import LogIn from "../components/LogIn";
+import FormTester from "./shared/FormTester";
 
 function MessagePage() {
   const activeUser = useContext(ActiveUserContext);
-  const handlePost = (title, detail, priority) => {
-    console.log(title, detail, priority);
+  const handlePost = (title, detail, priority, file) => {
+    console.log(title, detail, priority, file);
+    // create new message and save it
+    // messageModel : (title, details, priority, picture, createdBy, createdAt, comments)
+
+
+
   };
 
   if (!activeUser.user) {
@@ -19,9 +25,10 @@ function MessagePage() {
     <div>
       <TheNavBar iamParent={"messages"} />
       <Container>
-        <h2>Messages</h2>
+        <h2>buildingName Messages Board</h2>
         <NewMessage handlePost={handlePost} />
       </Container>
+
     </div>
   );
 }

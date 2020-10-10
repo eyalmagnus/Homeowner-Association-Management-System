@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
 const LogIn = (props) => {
@@ -11,10 +11,11 @@ const LogIn = (props) => {
   const handleShow = () => setShow(true);
 
   const handleLogClick = () => {
-    console.log("LogIn sends:", email, password);
-    props.handleLogin(email, password);
-    handleClose();
-  };
+    const logResult = props.handleLogin(email, password);
+    if (!logResult) {
+      alert("Log in fail: No match to any user"); setShow(false);
+    } else { handleClose() };
+  }
 
   return (
     <>
