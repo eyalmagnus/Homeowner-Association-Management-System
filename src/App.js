@@ -17,7 +17,7 @@ export default function App() {
     "johny@email.com",
     7,
     true,
-    "thePil",
+    "Pil tower",
     567,
     1234
   );
@@ -26,7 +26,7 @@ export default function App() {
     "sara@email.com",
     8,
     false,
-    "thePil",
+    "Pil tower",
     567,
     1235
   );
