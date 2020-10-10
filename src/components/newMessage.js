@@ -29,6 +29,8 @@ const NewMessage = (props) => {
   };
 
   const fileCooseLabel = (file.length > 0) ? file[0].name : "Choose a picture..."
+
+
   return (
     <div >
       <Button variant="link" onClick={handleShow}>
