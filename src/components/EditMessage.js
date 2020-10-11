@@ -30,7 +30,6 @@ const EditMessage = (props) => {
   };
 
   const handleRepost = (event) => {
-    
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -94,7 +93,7 @@ const EditMessage = (props) => {
             </Form.Group>
             <Form.Group controlId="ControlpPriority">
               <Form.Label>Priority:</Form.Label>
-              <Form.Control as="select" value={priorityS} onChange={(e) => {
+              <Form.Control as="select" value={priority} onChange={(e) => {
                 setPriority(e.target.value);
               }}>
                 <option value={"info"}>Info</option>

@@ -9,17 +9,24 @@ const NewMessage = (props) => {
   const [file, setFile] = useState({});
   const [validated, setValidated] = useState(false);
 
-
-  const handleClose = () => { setShow(false); setTitle(""); setDetails(""); setPriority("info"); setFile({}); setValidated(false); };
+  const handleClose = () => {
+    setShow(false);
+    setTitle("");
+    setDetails("");
+    setPriority("info");
+    setFile({});
+    setValidated(false);
+  };
   const handleShow = () => setShow(true);
 
   const inputRef = useRef();
 
-
   const handleFileSelect = (event) => {
     console.log(event.target.files);
     const files = event.target.files;
-    if (files.length > 0) { setFile(files) }
+    if (files.length > 0) {
+      setFile(files);
+    }
   };
 
   const handlePost = (event) => {
@@ -34,11 +41,10 @@ const NewMessage = (props) => {
     }
   };
 
-  const fileCooseLabel = (file.length > 0) ? file[0].name : "Choose a picture..."
-
+  const fileCooseLabel = file.length > 0 ? file[0].name : "Choose a picture...";
 
   return (
-    <div >
+    <div>
       <Button variant="link" onClick={handleShow}>
         + New Message
       </Button>
@@ -89,27 +95,40 @@ const NewMessage = (props) => {
             </Form.Group>
             <Form.Group controlId="ControlpPriority">
               <Form.Label>Priority:</Form.Label>
-              <Form.Control as="select" value={priority} onChange={(e) => {
-                setPriority(e.target.value);
-              }}>
+              <Form.Control
+                as="select"
+                value={priority}
+                onChange={(e) => {
+                  setPriority(e.target.value);
+                }}
+              >
                 <option value={"info"}>Info</option>
                 <option value={"important"}>IMPORTANT!</option>
               </Form.Control>
             </Form.Group>
             {/* The F I L E INPUT */}
-            <Form.File multiple id="pic-file" ref={inputRef} label={fileCooseLabel} custom onChange={handleFileSelect} />
+            <Form.File
+              multiple
+              id="pic-file"
+              ref={inputRef}
+              label={fileCooseLabel}
+              custom
+              onChange={handleFileSelect}
+            />
             <div className="my-3 d-flex justify-content-end">
-              <Button className="m-1 mr-2" variant="secondary" onClick={handleClose}>
+              <Button
+                className="m-1 mr-2"
+                variant="secondary"
+                onClick={handleClose}
+              >
                 Cancel
-          </Button>
-              <Button className="my-1" type="submit" variant="primary" >
+              </Button>
+              <Button className="my-1" type="submit" variant="primary">
                 Post Message
-          </Button>
+              </Button>
             </div>
           </Form>
-
         </Modal.Body>
-
       </Modal>
     </div>
   );
