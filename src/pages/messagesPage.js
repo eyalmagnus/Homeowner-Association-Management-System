@@ -1,5 +1,5 @@
 import TheNavBar from "../components/theNavBar";
-import { Accordion, Badge, Button, Card, Container, Image } from "react-bootstrap";
+import { Accordion, Button, Card, Container } from "react-bootstrap";
 import React, { useContext, useState } from "react";
 import ActiveUserContext from "../activeUserContext";
 import { Redirect } from "react-router-dom";
@@ -8,46 +8,56 @@ import messageModel from "./shared/messageModel";
 import trashCan from "../images/trash-can.svg"
 import important from "../images/important.svg"
 import info from "../images/info.svg"
-import edit from "../images/edit.svg"
+import EditMessage from "../components/EditMessage";
 
 function MessagePage() {
   const prevMessages = localStorage.messages ? JSON.parse(localStorage.messages) : []
   const [messagesBillboard, setMessagesBillboard] = useState(prevMessages);
   const activeUser = useContext(ActiveUserContext);
   const { user } = activeUser;
-
   if (!activeUser.user) {
     return <Redirect to="/" />;
   }
-  const { name, email, apartment, isCM, buildingName, buildingID, userID } = user;
+  const { isCM, buildingName, userID } = user;
+
+  // messageModel : (title, details, priority, picture, createdBy, createdAt, comments, readBy)
+
   const handlePost = (title, details, priority, file) => {
-    console.log(title, details, priority, file);
-    console.log(user.userID);
-    // messageModel : (title, details, priority, picture, createdBy, createdAt, comments)
     const now = new Date();
     const newMessage = new messageModel(
-      title, details, priority, file, userID, now, []
+      title, details, priority, file, userID, now, [] , []
     );
-    console.log(newMessage);
     setMessagesBillboard(messagesBillboard.concat(newMessage));
     localStorage.messages = JSON.stringify(messagesBillboard.concat(newMessage));
   };
 
 
   const handleTrashClick = (value) => {
-    console.log("click", value);
     const confirmDelete = window.confirm("DELETE MESSAGE! Are you sure? \n This action cannot be undone!");
     if (confirmDelete) {
       const messagesC = messagesBillboard.slice();
       messagesC.splice(value, 1);
       setMessagesBillboard(messagesC);
+      localStorage.messages = JSON.stringify(messagesC);
+
     }
   }
-  const handleEditClick = (value) => {
-    console.log("edit", value)
+
+
+  const handleEditMessage = (title, details, priority, file, replacing) => {
+   
+      const newDetail = details.concat(` - updated "${messagesBillboard[replacing].title}"`)
+      // handlePost(title, newDetail, priority, file);
+      const now = new Date();
+      const messagesC = messagesBillboard.slice();
+      const newMessage = new messageModel(
+        title, newDetail, priority, file, userID, now, [], []
+      );
+      messagesC.splice(replacing, 1);
+      setMessagesBillboard(messagesC.concat(newMessage));
+      localStorage.messages = JSON.stringify(messagesC.concat(newMessage));
+    
   }
-
-
   const showMessages = () => {
     let messages = [];
     for (let i = 0; i < messagesBillboard.length; i++) {
@@ -68,7 +78,7 @@ function MessagePage() {
             <Card.Body>{message.details}
               <br />
               {isCM ? <img alt="trash" src={trashCan} onClick={() => handleTrashClick(i)} /> : null}
-              {isCM ? <img alt="edit" src={edit} onClick={() => handleEditClick(i)} /> : null}
+              {isCM ? <EditMessage handleEdit={handleEditMessage} messageN={i} message={message} /> : null}
             </Card.Body>
           </Accordion.Collapse>
         </Card>
@@ -76,12 +86,13 @@ function MessagePage() {
     }
     return messages;
   }
-
+  console.log(messagesBillboard);
   return (
     <div>
       <TheNavBar iamParent={"messages"} />
       <Container>
         <h3>{buildingName} - Billboard</h3>
+        
         <NewMessage handlePost={handlePost} />
         <Accordion defaultActiveKey="">
           {showMessages()}
@@ -94,8 +105,5 @@ function MessagePage() {
 }
 
 export default MessagePage;
-
-
-
 
 

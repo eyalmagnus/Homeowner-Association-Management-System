@@ -18,6 +18,7 @@ export default function App() {
     7,
     true,
     "Pil tower",
+    "Bnei Ephraim St 280, Tel Aviv-Yafo",
     567,
     1234
   );
@@ -27,6 +28,7 @@ export default function App() {
     8,
     false,
     "Pil tower",
+    "Bnei Ephraim St 280, Tel Aviv-Yafo",
     567,
     1235
   );

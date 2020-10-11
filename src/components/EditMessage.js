@@ -1,19 +1,26 @@
 import React, { useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
+import edit from "../images/edit.svg"
 
-const NewMessage = (props) => {
-  const [show, setShow] = useState(false);
-  const [title, setTitle] = useState("");
-  const [details, setDetails] = useState("");
-  const [priority, setPriority] = useState("info");
-  const [file, setFile] = useState({});
-  const [validated, setValidated] = useState(false);
+const EditMessage = (props) => {
 
-
-  const handleClose = () => { setShow(false); setTitle(""); setDetails(""); setPriority("info"); setFile({}); setValidated(false); };
-  const handleShow = () => setShow(true);
 
   const inputRef = useRef();
+
+  const { handleEdit, messageN: replacing, message } = props;
+  const { title: titleS, details: detailsS, priority: priorityS, picture } = message;
+
+  const [show, setShow] = useState(false);
+  const [title, setTitle] = useState(titleS);
+  const [details, setDetails] = useState(detailsS);
+  const [priority, setPriority] = useState(priorityS);
+  const [file, setFile] = useState(picture);
+  const [validated, setValidated] = useState(false);
+  
+  const handleClose = () => { setShow(false);  setValidated(false); };
+  const handleShow = () => {
+    const confirmEdit = window.confirm("EDIT MESSAGE! Are you sure? \n This action will create a new updated message and delete the old one.");
+    if (confirmEdit){setShow(true)} }
 
 
   const handleFileSelect = (event) => {
@@ -22,26 +29,24 @@ const NewMessage = (props) => {
     if (files.length > 0) { setFile(files) }
   };
 
-  const handlePost = (event) => {
+  const handleRepost = (event) => {
+    
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
       setValidated(true);
     } else {
-      props.handlePost(title, details, priority, file);
+      handleEdit(title, details, priority, file, replacing);
       handleClose();
     }
   };
 
   const fileCooseLabel = (file.length > 0) ? file[0].name : "Choose a picture..."
-
-
+  
   return (
     <div >
-      <Button variant="link" onClick={handleShow}>
-        + New Message
-      </Button>
+      <img alt="edit" src={edit} onClick={handleShow} />
 
       <Modal
         animation={false}
@@ -51,10 +56,10 @@ const NewMessage = (props) => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>New Billboard Message</Modal.Title>
+          <Modal.Title>Edit Billboard Message</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form noValidate validated={validated} onSubmit={handlePost}>
+          <Form noValidate validated={validated} onSubmit={handleRepost}>
             <Form.Group controlId="ControlTitle">
               <Form.Label>Title:</Form.Label>
               <Form.Control
@@ -89,7 +94,7 @@ const NewMessage = (props) => {
             </Form.Group>
             <Form.Group controlId="ControlpPriority">
               <Form.Label>Priority:</Form.Label>
-              <Form.Control as="select" value={priority} onChange={(e) => {
+              <Form.Control as="select" value={priorityS} onChange={(e) => {
                 setPriority(e.target.value);
               }}>
                 <option value={"info"}>Info</option>
@@ -103,7 +108,7 @@ const NewMessage = (props) => {
                 Cancel
           </Button>
               <Button className="my-1" type="submit" variant="primary" >
-                Post Message
+                Repost Message
           </Button>
             </div>
           </Form>
@@ -115,4 +120,4 @@ const NewMessage = (props) => {
   );
 };
 
-export default NewMessage;
+export default EditMessage;
