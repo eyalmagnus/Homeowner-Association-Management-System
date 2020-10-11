@@ -8,6 +8,7 @@ import messageModel from "./shared/messageModel";
 import trashCan from "../images/trash-can.svg"
 import important from "../images/important.svg"
 import info from "../images/info.svg"
+import edit from "../images/edit.svg"
 
 function MessagePage() {
   const prevMessages = localStorage.messages ? JSON.parse(localStorage.messages) : []
@@ -42,7 +43,9 @@ function MessagePage() {
       setMessagesBillboard(messagesC);
     }
   }
-
+  const handleEditClick = (value) => {
+    console.log("edit", value)
+  }
 
 
   const showMessages = () => {
@@ -65,6 +68,7 @@ function MessagePage() {
             <Card.Body>{message.details}
               <br />
               {isCM ? <img alt="trash" src={trashCan} onClick={() => handleTrashClick(i)} /> : null}
+              {isCM ? <img alt="edit" src={edit} onClick={() => handleEditClick(i)} /> : null}
             </Card.Body>
           </Accordion.Collapse>
         </Card>

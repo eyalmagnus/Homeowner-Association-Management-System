@@ -11,7 +11,6 @@ import LogIn from "./LogIn";
 function TheNavBar(props) {
   const { iamParent } = props;
   const activeUser = useContext(ActiveUserContext);
-  // console.log(activeUser);
   const { user, handleLogin, handleLogout } = activeUser;
   const aRef = createRef();
   const showDashboard =
@@ -33,7 +32,7 @@ function TheNavBar(props) {
     iamParent !== "votes" ? <Nav.Link href="/#/votes">Voting</Nav.Link> : null;
 
   const showTennants =
-    iamParent !== "tennants" ? (
+    (iamParent !== "tennants" && user && user.isCM) ? (
       <Nav.Link href="/#/tennants">Tennants</Nav.Link>
     ) : null;
   const showNavButtons = user ? (
@@ -49,13 +48,7 @@ function TheNavBar(props) {
     );
 
   const showLogin = !user ? (
-    // <Button
-    //   onClick={handleLogin}
-    //   className="m-1"
-    //   variant="outline-success"
-    // >
-    //   LogIn
-    // </Button>
+
     <LogIn handleLogin={handleLogin} />
   ) : null;
   const showLogout = user ? (
@@ -90,3 +83,4 @@ function TheNavBar(props) {
 }
 
 export default TheNavBar;
+// Icons made by < a href = "https://www.flaticon.com/authors/becris" title = "Becris" > Becris</a > from < a href = "https://www.flaticon.com/" title = "Flaticon" > www.flaticon.com</a >
