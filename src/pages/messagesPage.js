@@ -136,7 +136,7 @@ function MessagePage() {
       const showIcon = message.priority === "info" ? info : important;
       const key = "" + i;
       messages.push(
-        <Card key={i} className="v-flex">
+        <Card key={i}>
           <Card.Header className="d-flex justify-content-between">
             <Accordion.Toggle as={Button} variant="light" eventKey={key}>
               {message.title}
@@ -145,22 +145,30 @@ function MessagePage() {
           </Card.Header>
           <Accordion.Collapse eventKey={key}>
             <Card.Body>
-              {message.details}
-              <br />
-              {isCM ? (
-                <img
-                  alt="trash"
-                  src={trashCan}
-                  onClick={() => handleTrashClick(i)}
-                />
-              ) : null}
-              {isCM ? (
-                <EditMessage
-                  handleEdit={handleEditMessage}
-                  messageN={i}
-                  message={message}
-                />
-              ) : null}
+              <Row>
+                <Col xs="12">{message.details}</Col>
+                {isCM ? (
+                  <div>
+                    <Row>
+                      <Col>
+                        <img
+                          alt="trash"
+                          src={trashCan}
+                          onClick={() => handleTrashClick(i)}
+                        />
+                      </Col>
+                      <Col>
+                        <EditMessage
+                          // xs="4"
+                          handleEdit={handleEditMessage}
+                          messageN={i}
+                          message={message}
+                        />
+                      </Col>
+                    </Row>
+                  </div>
+                ) : null}
+              </Row>
             </Card.Body>
           </Accordion.Collapse>
         </Card>

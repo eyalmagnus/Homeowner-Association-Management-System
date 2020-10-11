@@ -1,14 +1,17 @@
 import React, { useRef, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
-import edit from "../images/edit.svg"
+import edit from "../images/edit.svg";
 
 const EditMessage = (props) => {
-
-
   const inputRef = useRef();
 
   const { handleEdit, messageN: replacing, message } = props;
-  const { title: titleS, details: detailsS, priority: priorityS, picture } = message;
+  const {
+    title: titleS,
+    details: detailsS,
+    priority: priorityS,
+    picture,
+  } = message;
 
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState(titleS);
@@ -16,17 +19,26 @@ const EditMessage = (props) => {
   const [priority, setPriority] = useState(priorityS);
   const [file, setFile] = useState(picture);
   const [validated, setValidated] = useState(false);
-  
-  const handleClose = () => { setShow(false);  setValidated(false); };
-  const handleShow = () => {
-    const confirmEdit = window.confirm("EDIT MESSAGE! Are you sure? \n This action will create a new updated message and delete the old one.");
-    if (confirmEdit){setShow(true)} }
 
+  const handleClose = () => {
+    setShow(false);
+    setValidated(false);
+  };
+  const handleShow = () => {
+    const confirmEdit = window.confirm(
+      "EDIT MESSAGE! Are you sure? \n This action will create a new updated message and delete the old one."
+    );
+    if (confirmEdit) {
+      setShow(true);
+    }
+  };
 
   const handleFileSelect = (event) => {
     console.log(event.target.files);
     const files = event.target.files;
-    if (files.length > 0) { setFile(files) }
+    if (files.length > 0) {
+      setFile(files);
+    }
   };
 
   const handleRepost = (event) => {
@@ -41,10 +53,10 @@ const EditMessage = (props) => {
     }
   };
 
-  const fileCooseLabel = (file.length > 0) ? file[0].name : "Choose a picture..."
-  
+  const fileCooseLabel = file.length > 0 ? file[0].name : "Choose a picture...";
+
   return (
-    <div >
+    <div>
       <img alt="edit" src={edit} onClick={handleShow} />
 
       <Modal
@@ -93,27 +105,40 @@ const EditMessage = (props) => {
             </Form.Group>
             <Form.Group controlId="ControlpPriority">
               <Form.Label>Priority:</Form.Label>
-              <Form.Control as="select" value={priority} onChange={(e) => {
-                setPriority(e.target.value);
-              }}>
+              <Form.Control
+                as="select"
+                value={priority}
+                onChange={(e) => {
+                  setPriority(e.target.value);
+                }}
+              >
                 <option value={"info"}>Info</option>
                 <option value={"important"}>IMPORTANT!</option>
               </Form.Control>
             </Form.Group>
             {/* The F I L E INPUT */}
-            <Form.File multiple id="pic-file" ref={inputRef} label={fileCooseLabel} custom onChange={handleFileSelect} />
+            <Form.File
+              multiple
+              id="pic-file"
+              ref={inputRef}
+              label={fileCooseLabel}
+              custom
+              onChange={handleFileSelect}
+            />
             <div className="my-3 d-flex justify-content-end">
-              <Button className="m-1 mr-2" variant="secondary" onClick={handleClose}>
+              <Button
+                className="m-1 mr-2"
+                variant="secondary"
+                onClick={handleClose}
+              >
                 Cancel
-          </Button>
-              <Button className="my-1" type="submit" variant="primary" >
+              </Button>
+              <Button className="my-1" type="submit" variant="primary">
                 Repost Message
-          </Button>
+              </Button>
             </div>
           </Form>
-
         </Modal.Body>
-
       </Modal>
     </div>
   );
