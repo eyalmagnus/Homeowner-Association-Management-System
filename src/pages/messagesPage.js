@@ -25,11 +25,13 @@ function MessagePage() {
   const [messagesBillboard, setMessagesBillboard] = useState(prevMessages);
   const activeUser = useContext(ActiveUserContext);
   const { user } = activeUser;
+  const [sortBy, setSortBy] = useState();
+
   if (!activeUser.user) {
     return <Redirect to="/" />;
   }
   const { isCM, buildingName, userID } = user;
-  // const [sortBy, setSortBy] = useState();
+
   // messageModel : (title, details, priority, picture, createdBy, createdAt, comments, readBy)
 
   const handlePost = (title, details, priority, file) => {
@@ -66,7 +68,6 @@ function MessagePage() {
     const newDetail = details.concat(
       ` - updated "${messagesBillboard[replacing].title}"`
     );
-    // handlePost(title, newDetail, priority, file);
     const now = new Date();
     const messagesC = messagesBillboard.slice();
     const newMessage = new messageModel(
@@ -84,21 +85,49 @@ function MessagePage() {
     localStorage.messages = JSON.stringify(messagesC.concat(newMessage));
   };
 
-  // const dateSort = () => {
-  //   let messages = messagesBillboard.slice();
-  //   messages.sort(function (a, b) {
-  //     var x = a.createdAt;
-  //     var y = b.createdAt;
-  //     if (x < y) {
-  //       return -1;
-  //     }
-  //     if (x > y) {
-  //       return 1;
-  //     }
-  //     return 0;
-  //   });
-  //   setMessagesBillboard(messages);
-  // };
+  const handleSortChange = (value) => {
+    console.log(value);
+    switch (value) {
+      case "date":
+        dateSort();
+        break;
+      case "priority":
+        prioritySort();
+        break;
+    }
+  };
+
+  const dateSort = () => {
+    let messages = messagesBillboard.slice();
+    messages.sort(function (a, b) {
+      var x = a.createdAt;
+      var y = b.createdAt;
+      if (x < y) {
+        return -1;
+      }
+      if (x > y) {
+        return 1;
+      }
+      return 0;
+    });
+    setMessagesBillboard(messages);
+  };
+
+  const prioritySort = () => {
+    let messages = messagesBillboard.slice();
+    messages.sort(function (a, b) {
+      var x = a.priority;
+      var y = b.priority;
+      if (x < y) {
+        return -1;
+      }
+      if (x > y) {
+        return 1;
+      }
+      return 0;
+    });
+    setMessagesBillboard(messages);
+  };
 
   const showMessages = () => {
     let messages = [];
@@ -139,7 +168,9 @@ function MessagePage() {
     }
     return messages;
   };
+
   console.log(messagesBillboard);
+
   return (
     <div>
       <TheNavBar iamParent={"messages"} />
@@ -152,19 +183,21 @@ function MessagePage() {
               <Form.Label className="mr-2">Sort by: </Form.Label>
 
               <Form.Check
+                onChange={() => handleSortChange("date")}
                 inline
                 defaultChecked
                 type="radio"
                 label="Date"
-                name="formHorizontalRadios"
-                id="formHorizontalRadios1"
+                name="Radios"
+                id="Radios1"
               />
               <Form.Check
+                onChange={() => handleSortChange("priority")}
                 inline
                 type="radio"
                 label="Priority"
-                name="formHorizontalRadios"
-                id="formHorizontalRadios2"
+                name="Radios"
+                id="Radios2"
               />
             </Col>
           </Form.Group>
