@@ -25,7 +25,7 @@ function MessagePage() {
   const [messagesBillboard, setMessagesBillboard] = useState(prevMessages);
   const activeUser = useContext(ActiveUserContext);
   const { user } = activeUser;
-  const [sortBy, setSortBy] = useState();
+  const [filterBy, setFilterBy] = useState();
 
   if (!activeUser.user) {
     return <Redirect to="/" />;
@@ -128,6 +128,27 @@ function MessagePage() {
     });
     setMessagesBillboard(messages);
   };
+  const handleFilter = (event) => {
+    console.log(event.target.value);
+    setFilterBy(event.target.value);
+
+    //   let actorCards = [];
+    //   for (let i = 0; i < actors.length; i++) {
+    //     let fnameC = actors[i].fname.toUpperCase();
+    //     let lnameC = actors[i].lname.toUpperCase();
+    //     let filterC = filtering.toUpperCase();
+    //     if (fnameC.indexOf(filterC) > -1 || lnameC.indexOf(filterC) > -1) {
+    //       actorCards.push(
+    //         <Col key={i} xs={12} sm={6} md={4} lg={3} xl={2}>
+    //           <ActorCard actor={actors[i]} />
+    //         </Col>
+    //       );
+    //     }
+    //   }
+
+    //   return actorCards;
+    // }
+  };
 
   const showMessages = () => {
     let messages = [];
@@ -150,16 +171,15 @@ function MessagePage() {
                 {isCM ? (
                   <div>
                     <Row>
-                      <Col>
+                      <Col xs="6">
                         <img
                           alt="trash"
                           src={trashCan}
                           onClick={() => handleTrashClick(i)}
                         />
                       </Col>
-                      <Col>
+                      <Col xs="6">
                         <EditMessage
-                          // xs="4"
                           handleEdit={handleEditMessage}
                           messageN={i}
                           message={message}
@@ -208,6 +228,18 @@ function MessagePage() {
                 id="Radios2"
               />
             </Col>
+          </Form.Group>
+          <Form.Group controlId="filter">
+            <Form.Label>Filter</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter to filter"
+              value={filterBy}
+              onChange={handleFilter}
+            />
+            <Form.Text className="text-muted">
+              Enter text to search in messages titles and details.
+            </Form.Text>
           </Form.Group>
         </Form>
 
